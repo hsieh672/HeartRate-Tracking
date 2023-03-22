@@ -1,5 +1,6 @@
 # HeartRate-Tracking
-The PPG signal is collected at the wrist by a watch. There are three types of noise that need to be eliminated.  
+The PPG signal is collected at the wrist by a watch.  
+There are three types of noise that need to be eliminated.  
 The format of data.csv: A: PPG-G(*7.5*10^-7 = uA), B: ACC-X, C: ACC-Y, D: ACC-Z. Sampling rate of photoplethysmography (PPG) and accelerator (ACC) signals are 50Hz.  
 The data in golden.csv: The heart rate which use to calculate the Availability Percentage (AP).   
 ## Low Pass filter
