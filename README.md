@@ -16,6 +16,12 @@ Used the equation as the following to change the low pass filter to a high pass 
 Used PPG signal subtracted three noise signal：ACC-X, ACC-Y, ACC-Z signals and then normalized it.  
 
 ## Availability Percentage (AP)
+```sh
+cd dillinger
+npm i
+node app
+```
+
 | AP3    | AP5    | AP10   | AP15   | AP20   |
 |--------|--------|--------|--------|--------|
 | 0.9094 | 0.9475 | 0.9829 | 0.9921 | 0.9974 |
