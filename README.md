@@ -26,6 +26,7 @@ function [filter_data] = fir_lpf_4Hz_conv(data, fs)
 ## High Pass filter
 Used the same way to construct a low pass filter I built in the previous section.  
 Used the equation as the following to change the low pass filter to a high pass filter.  
+
 ![equation](https://github.com/hsieh672/HeartRate-Tracking/blob/main/imag/equation.png)
 
 ```sh
@@ -69,8 +70,32 @@ Find the index of the maximum value between 20 and 90 in every second. Controlle
 ```
 
 ## Availability Percentage (AP)
+Used the formula as the following figure to find AP. From the definition, when available bpm range becomes larger, the availability becomes higher. The answer I got also verifies this inference.  
 
+![AP](https://github.com/hsieh672/HeartRate-Tracking/blob/main/imag/AP.png)  
 
+```sh
+function [availability] = availability(hr_bpm, golden_hr)
+            availability = length(5);
+            avaiable_bpm_range = [3, 5, 10, 15, 20]
+                %% STUDENT: DO SOMETHING BELOW
+            for n = 1:5
+                sum = 0;
+                for i = 1:length(golden_hr)
+                    if(abs(hr_bpm(i)-golden_hr(i)) < avaiable_bpm_range(n))
+                        sum = sum + 1;
+                    end
+                end
+                availability(n) = sum / length(golden_hr);
+            end
+                
+                %% STUDENT: DO SOMETHING ABOVE 
+        end
+```
+ ## Simulation Results
+ 
+ ![simulation](https://github.com/hsieh672/HeartRate-Tracking/blob/main/imag/simulation.png)   
+ 
 | AP3    | AP5    | AP10   | AP15   | AP20   |
 |--------|--------|--------|--------|--------|
 | 0.9094 | 0.9475 | 0.9829 | 0.9921 | 0.9974 |
