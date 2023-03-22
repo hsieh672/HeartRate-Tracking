@@ -19,5 +19,4 @@ Used PPG signal subtracted three noise signal：ACC-X, ACC-Y, ACC-Z signals and 
 | AP3    | AP5    | AP10   | AP15   | AP20   |
 |--------|--------|--------|--------|--------|
 | 0.9094 | 0.9475 | 0.9829 | 0.9921 | 0.9974 |
-|        |        |        |        |        |
-|        |        |        |        |        |
+
