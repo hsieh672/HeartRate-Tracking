@@ -7,6 +7,20 @@ The cut off frequency of the low pass filter is 240/60 (Hz), so I set up the edg
 ### (𝜔𝑝𝑎𝑠𝑠𝑏𝑎𝑛𝑑 +𝜔𝑠𝑡𝑜𝑝𝑏𝑎𝑛𝑑) ∗ (1/2)  
 
 Next, created a rectangular window and shifted it to the right to make sure it is causal. Finally, y[n] = x[n]*h[n], the output data equivalent to the input data convolves the impulse response.  
+
+```sh
+omega_cut = (230/60)/fs*2*pi; % edge frequency of passband
+            omega_stop = (250/60)/fs*2*pi; % edge frequency of stopband
+            domega = omega_stop-omega_cut;
+            omega_c = (omega_cut + omega_stop)/2;
+            N = ceil(2*pi/domega);
+            n = [0:1:(2*N)]; 
+            m = n- N; %SHIFT 
+            h = omega_c/pi * sinc(omega_c/pi * m);
+            filter_data = conv(data,h);
+            filter_data = filter_data((length(h)-1)/2:length(data)+(length(h)-1)/2-1);
+```
+
 ## High Pass filter
 Used the same way to construct a low pass filter I built in the previous section.  
 Used the equation as the following to change the low pass filter to a high pass filter.  
