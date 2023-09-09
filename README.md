@@ -1,13 +1,13 @@
 # HeartRate-Tracking
 The PPG signal is collected at the wrist by a watch.  
-There are three types of noise that need to be eliminated.  
-The format of data.csv: A: PPG-G(7.5*10^-7 = uA), B: ACC-X, C: ACC-Y, D: ACC-Z. Sampling rate of photoplethysmography (PPG) and accelerator (ACC) signals are 50Hz.  
-The data in golden.csv: The heart rate which use to calculate the Availability Percentage (AP).   
+Three types of noise need to be eliminated.  
+The format of data.csv: A: PPG-G(7.5*10^-7 = uA), B: ACC-X, C: ACC-Y, D: ACC-Z. The sampling rate of photoplethysmography (PPG) and accelerator (ACC) signals is 50Hz.  
+The data in golden.csv: The heart rate calculates the Availability Percentage (AP).   
 ## Low Pass filter
-The cut off frequency of the low pass filter is 240/60 (Hz), so I set up the edge frequency of passband and the edge frequency of stopband to the first two steps of the following figure, then the cut off frequency would be  
+The cut-off frequency of the low pass filter is 240/60 (Hz), so I set up the edge frequency of the passband and the edge frequency of the stopband to the first two steps of the following figure, then the cut-off frequency would be  
 ### (𝜔𝑝𝑎𝑠𝑠𝑏𝑎𝑛𝑑 +𝜔𝑠𝑡𝑜𝑝𝑏𝑎𝑛𝑑) ∗ (1/2)  
 
-Next, created a rectangular window and shifted it to the right to make sure it is causal.  
+Next, I created a rectangular window and shifted it to the right to make sure it was causal.  
 Finally, y[n] = x[n]*h[n], the output data equivalent to the input data convolves the impulse response.  
 
 ```sh
@@ -26,8 +26,8 @@ function [filter_data] = fir_lpf_4Hz_conv(data, fs)
 ```
 
 ## High Pass filter
-Used the same way to construct a low pass filter I built in the previous section.  
-Used the equation as the following to change the low pass filter to a high pass filter.  
+I used the same way to construct a low-pass filter I built in the previous section.  
+I used the equation as the following to change the low pass filter to a high pass filter.  
 
 ![equation](https://github.com/hsieh672/HeartRate-Tracking/blob/main/imag/equation.png)
 
@@ -50,7 +50,7 @@ function [filter_data] = fir_hpf_conv(data, fs)
 ```
 
 ##  Spectrum Denoise
-Used PPG signal subtracted three noise signal：ACC-X, ACC-Y, ACC-Z signals and then normalized it.  
+Used PPG signal subtracted three noise signals： ACC-X, ACC-Y, ACC-Z signals and then normalized it.  
 
 ```sh
     denoise_fft(sim_timer, :) = 0;
@@ -58,7 +58,7 @@ Used PPG signal subtracted three noise signal：ACC-X, ACC-Y, ACC-Z signals and 
     denoise_fft(sim_timer, :) = denoise_ffti/max(denoise_ffti);
 ```
 ## HR tracking
-Find the index of the maximum value between 20 and 90 in every second. Controlled range ensures more precise answers. Because of the denoise signal in every second is between lowR(28) and highR(165), so I rescaled the hr_track from 65 to 170 to make sure it shares a y-axis with golden_hr data.
+Find the index of the maximum value between 20 and 90 every second. The controlled range ensures more precise answers. Because the denoise signal in every second is between lowR(28) and highR(165), I rescaled the hr_track from 65 to 170 to ensure it shares a y-axis with golden_hr data.
 
 ```sh 
     hr_track(sim_timer) = 0;
@@ -72,7 +72,7 @@ Find the index of the maximum value between 20 and 90 in every second. Controlle
 ```
 
 ## Availability Percentage (AP)
-Used the formula as the following figure to find AP. From the definition, when available bpm range becomes larger, the availability becomes higher. The answer I got also verifies this inference.  
+I used the formula in the following figure to find AP. From the definition, the availability becomes higher when the available bpm range becomes more considerable. The answer I got also verifies this inference.  
 
 ![AP](https://github.com/hsieh672/HeartRate-Tracking/blob/main/imag/AP.png)  
 
